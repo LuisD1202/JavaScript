@@ -1,0 +1,23 @@
+var estudiante ={
+  nombre:"Camilo",carso:7,matematicas:6,Sociales:4,ingles:9,
+  obtenerNombre:function(){
+    return this.nombre;
+  },
+  obtenerPromedio:function(){
+    var promedio=(this.matematicas+this.Sociales+this.ingles)/3;
+    return promedio;
+  }
+};
+Object { nombre: "Camilo", carso: 7, matematicas: 6, Sociales: 4, ingles: 9, obtenerNombre: obtenerNombre(), obtenerPromedio: obtenerPromedio() }
+estudiante.nombre
+"Camilo"
+estudiante.curso
+undefined
+estudiante.obtenerPromedio()
+6.333333333333333
+estudiante.obtenerPromedio(3,2,1)
+6.333333333333333
+estudiante.obtenerNombre
+function obtenerNombre()
+estudiante.obtenerNombre()
+"Camilo"
