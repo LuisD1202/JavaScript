@@ -1,11 +1,13 @@
 {
   "usuarios":
   [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {}
+    identificacion{},
+    nombre{},
+    apellido{},
+    edad{},
+    email{},
+    telefono{},
+    direccion{},
+    estado{}
   ]
 }
