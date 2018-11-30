@@ -28,7 +28,7 @@ function initMap() {
   }
   map = new google.maps.Map(mapContainer, config)
   infoWindow = new google.maps.InfoWindow({ map: map })
-
+  Agenda.init()
 }
 
 var button = document.getElementById('btn-geo')
@@ -54,5 +54,60 @@ var Agenda =
         this.listenMapClick() // Esta funcion se encarga de iuniciarlistar el arreglo de los sitios uardados en session storage de cargaerlos cuando estemos en la pagina y de ejecutar la funcion del evento click en el mapa y realizara la captura de los datos
         this.sitiosGuardados = []
         sessionStorage.setItem("sitios",JSON.stringify(this.sitiosGuardados)) // Esta funcion
+    },
+    //la encargada de caprturar el evento click en el mapa y de inmediato capturar la posicion y datos del sitio a guardar esta funcionaon a su vez escucha otro evento click sobre el elemento guardar del formulario donde ingresamos los datos.
+    listenMapClick: function(){
+      var self = this
+      google.maps.event.addListener(map,'click', function(ev){
+        var position = ev.latLng
+        var modalInfo = document.getElementsByClassName('modalInfo')[0].click()
+        var btnGuardar = document.getElementsByClassName('guardaInfo')[0]
+        btnGuardar.onclick = function(e){
+          e.preventDefault()
+          var nombre= document.getElementsByClassName("nombre")[0],
+          description= document.getElementsByClassName("descripcion")[0]
+          var site = {
+            nombre: nombre.value,
+            description: description.value,
+            latitud: position.lat(),
+            longitud: position.lng()
+          }
+          self.saveAndPlaceMarker(site)
+          nombre.value = ''
+          description.value = ''
+          $('#modalCaptura').closeModal()
+        }
+      })
+    },
+    saveAndPlaceMarker: function(site){
+      this.sitiosGuardados = JSON.parse(sessionStorage.getItem('sitios'))
+      this.sitiosGuardados.push(site)
+      sessionStorage.setItem('sitios',JSON.stringify(this.sitiosGuardados))
+      this.renderSite(site)
+    },
+    renderSite: function(site){
+      var htmlInfo = '<li class="collection-item avatar">'+
+                     '<i class="material-icons cicle blue">thumb_up</i>'+
+                     '<span class="title"> :nombre: </span>'+
+                     '<p> Latitud: :latitud: <br> Longitud: :longitud: <br> Description: :description:</p>'+
+                     '<a href="#!" class="secondary-content"> <i class="material-icons">grade</i></a>'+
+                     '</li>'
+
+                     var newSite = htmlInfo
+                     var result = newSite.replace(":nombre:",site.nombre)
+                                         .replace(":latitud:",site.latitud)
+                                         .replace(":longitud:",site.longitud)
+                                         .replace(":description:",site.description)
+
+                    var allSites = document.getElementsByClassName("guardados")[0]
+                    var markerOpts = {
+                      position:{
+                        lat: site.latitud,
+                        lng: site.longitud
+                      },
+                      map:map
+                    }
+                    var newMarker = new google.maps.Marker(markerOpts)
+                    allSites.innerHTML = allSites.innerHTML + result
     }
 }
