@@ -20,8 +20,6 @@ workerUsuario.addEventListener('message', function(e) {
     formReserva.className += "reserva hide"
   }
 })
-
-
 var botonRegistro = document.getElementById('registrar'),
     botonReserva  = document.getElementById('reservar')
     inputDocumento = document.getElementById('numDocRes');
