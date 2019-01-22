@@ -1,4 +1,4 @@
-on
+//Declaracion de variables.
 var pantalla = document.getElementById("display");
 var num0 = document.getElementById("num0");
 var num1 = document.getElementById("num1");
@@ -10,7 +10,6 @@ var num6 = document.getElementById("num6");
 var num7 = document.getElementById("num7");
 var num8 = document.getElementById("num8");
 var num9 = document.getElementById("num9");
-
 var on = document.getElementById("On");
 var sign = document.getElementById("sign");
 var raiz = document.getElementById("raiz");
@@ -22,7 +21,9 @@ var igual = document.getElementById("igual");
 var mas = document.getElementById("mas");
 var value1 = "";
 var value2 = "";
+var oper = "";
 // Escritura de numeros y signos
+{
   num0.addEventListener("click",function()
   {
     if (pantalla.textContent == "0") {
@@ -130,25 +131,41 @@ var value2 = "";
         pantalla.textContent = "-" + pantalla.textContent ;
     }
   })
+}
 // Operaciones
   mas.addEventListener("click",function()
   {
     value1 = pantalla.textContent;
+    oper = "+";
     pantalla.textContent = "";
   })
   raiz.addEventListener("click",function(){
-    pantalla.textContent+="1";})
-  tecla_divide.addEventListener("click",function(){
-  pantalla.textContent+="1";})
-  tecla_multiplica.addEventListener("click",function(){
-  pantalla.textContent+="1";})
-  tecla_resta.addEventListener("click",function(){
-  pantalla.textContent+="1";})
+    value1 = pantalla.textContent;
+    oper = "raiz";
+    pantalla.textContent = "";})
+  tecla_divide.addEventListener("click",function()  {
+      value1 = pantalla.textContent;
+      oper = "/";
+      pantalla.textContent = "";
+    })
+  tecla_multiplica.addEventListener("click",function()  {
+      value1 = pantalla.textContent;
+      oper = "*";
+      pantalla.textContent = "";
+    })
+  tecla_resta.addEventListener("click",function()  {
+      value1 = pantalla.textContent;
+      oper = "-";
+      pantalla.textContent = "";
+    })
+
   igual.addEventListener("click",function()
   {
-    Operation(Oper , val1, val2);
+    value2 = pantalla.textContent;
+    Operation(oper, value1, value2);
   })
 // Animaciones
+{
   num0.addEventListener("mousedown",function(){
    num0.setAttribute("style","transform:scale(1.20,1.20)")
   })
@@ -263,7 +280,7 @@ var value2 = "";
   igual.addEventListener("mouseout",function(){
     igual.setAttribute("style","transform:scale(1,1)")
   })
-
+}
   function validateLeng(contenido ,value){
   if(contenido.length >= 8)
   {
@@ -273,3 +290,32 @@ var value2 = "";
     pantalla.textContent += value;
   }
 }
+  function Operation(oper,value1,value2)  {
+    switch (oper) {
+     case "+":
+        var result =  parseFloat(value1) + parseFloat(value2);
+        validateResultLong(result);break;
+     case "-":
+        var result =  parseFloat(value1) - parseFloat(value2);
+        validateResultLong(result);break;
+     case "*":
+      var result =  parseFloat(value1) * parseFloat(value2);
+      validateResultLong(result);break;
+     case "/":
+      var result =  parseFloat(value1) / parseFloat(value2);
+      validateResultLong(result);break;
+     case "raiz":
+      var result =   Math.sqrt(parseFloat(value1));
+      validateResultLong(result);break;
+    default:
+    }
+  }
+  function validateResultLong(result){
+    var vResult = result.toString();
+    if (vResult.length >= 8) {
+      pantalla.textContent= vResult.slice(0,8);
+    }
+    else {
+      pantalla.textContent= vResult;
+    }
+  }
